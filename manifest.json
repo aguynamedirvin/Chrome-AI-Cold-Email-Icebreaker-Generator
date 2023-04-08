@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "Personalized Icebreaker Generator",
+  "version": "1.0",
+  "description": "Generate personalized icebreakers using Google Sheets and OpenAI API.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "tabs",
+    "webNavigation",
+    "<all_urls>",
+    "identity",
+    "https://www.linkedin.com/*",
+    "https://api.openai.com/*",
+    "https://sheets.googleapis.com/*"
+  ],
+  "oauth2": {
+    "client_id": "YOUR_API_KEY_HERE.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/spreadsheets"
+    ]
+  },
+  "host_permissions": [
+    "https://*.linkedin.com/",
+    "https://www.googleapis.com/",
+    "https://api.openai.com/",
+    "https://sheets.googleapis.com/",
+    "http://*/*",
+    "https://*/*",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.linkedin.com/*",
+        "<all_urls>"
+      ],
+      "js": ["modules/linkedinProfileScrapper.js"]
+    }
+  ],
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
