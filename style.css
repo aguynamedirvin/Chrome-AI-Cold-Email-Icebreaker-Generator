@@ -1,0 +1,43 @@
+body {
+  font-family: 'Montserrat', Arial, sans-serif;
+  width: 300px;
+  padding: 15px;
+}
+
+input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #DDD;
+}
+
+button {
+  width: 100%;
+  background: #0c66c2;
+  padding: 8px 12px;
+  border-radius: 100px;
+  color: #fff;
+  border: 2px solid #0c66c2;
+  cursor: pointer;
+  transition: background 500ms;
+  font-weight: 600;
+}
+button:hover {
+  color: #fff;
+  background: #004181;
+  border-color: #004181;
+  transform: scale(1.05);
+}
+
+button#save-settings {
+  background: #fff;
+  color: #0c66c2;
+}
+button#save-settings:hover {
+  color: #004181;
+}
+
+#status {
+  margin-top: 15px;
+}

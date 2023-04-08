@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Personalized Icebreaker Generator</title>
+</head>
+<body>
+  <h1>Personalized Icebreaker Generator</h1>
+  
+  <h2>Settings</h2>
+  <form id="settings-form">
+    <label for="openai-api-key">OpenAI API Key:</label>
+    <input type="text" id="openai-api-key" name="openai-api-key">
+    <br>
+    <label for="spreadsheet-id">Spreadsheet ID:</label>
+    <input type="text" id="spreadsheet-id" name="spreadsheet-id">
+    <br>
+    <label for="linkedin-profile-url-column">LinkedIn Profile URL Column Letter (e.g., A):</label>
+    <input type="text" id="linkedin-profile-url-column" required>
+    <br>
+    <label for="icebreaker-column"><b>Icebreaker Column</b> Letter (e.g., B):</label>
+    <input type="text" id="icebreaker-column" required>
+    <br>
+    <label for="review-count-column"><b>Review Count</b> Column Letter (e.g., B):</label>
+    <input type="text" id="review-count-column" required>
+    <br>
+    <label for="rating-column"><b>Rating Column</b> Letter (e.g., B):</label>
+    <input type="text" id="rating-column" required>
+    <br>
+    <button type="button" id="save-settings">Save Settings</button>
+  </form>
+
+  <h2>Generate Icebreakers</h2>
+  <button type="button" id="generate-icebreakers">Generate Icebreakers ⚡️</button>
+
+  <div id="status"></div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
