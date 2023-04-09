@@ -54,6 +54,7 @@ function handleProfileScraping(tabId, listener, resolve, reject) {
       port.onMessage.addListener((response) => {
         logProfileData(response);
         resolve({ profileData: response, createdTab: tabId });
+        chrome.tabs.remove(tabId);
       });
 
       port.onDisconnect.addListener((port) => {

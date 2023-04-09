@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!profileData) {
               console.log('Profile data not found, skipping...');
-              chrome.tabs.remove(createdTab.id);
+              chrome.tabs.remove(createdTab);
               continue;
             }
 
@@ -87,8 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
             await updateSheetData(token, spreadsheetId, lead.row, icebreaker, icebreakerColumn);
 
             // Close the tab
-            console.log('Closing tab with ID:', createdTab.id);
-            chrome.tabs.remove(createdTab.id);
+            console.log('Closing tab with ID:', createdTab);
+            chrome.tabs.remove(createdTab);
           } catch (error) {
             console.error('Error processing lead:', error);
           }
