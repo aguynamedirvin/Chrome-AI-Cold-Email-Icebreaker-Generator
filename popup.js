@@ -1,7 +1,7 @@
 import { getStoredSettings, loadSettings } from './modules/settings.js';
 import { getAuthToken } from './modules/googleAuth.js';
 import { fetchSheetData, parseSheetData, updateSheetData, columnNameToIndex } from './modules/googleSheets.js';
-import { createTab } from './modules/linkedinScrapper.js';
+import { createTab } from './modules/createTab.js';
 import { formatPositions, extractIcebreaker, generateIcebreaker } from './modules/openAI.js';
 
 
