@@ -1,3 +1,4 @@
+// Implement loginc for scrapping LinkedInProfile
 console.log('Content script loaded.');
 
 // Establish a connection to the background script
@@ -9,16 +10,22 @@ chrome.runtime.onConnect.addListener((port) => {
 
     if (request.action === 'scrapeLinkedInProfile') {
       console.log('Getting content...');
-      // Wait for the page to fully load based on the name element
-      waitForElement('main.scaffold-layout__main .pv-text-details__left-panel h1', () => {
-        port.postMessage(scrapeProfile());
+      scrollToBottom(() => {
+        waitForElement('main.scaffold-layout__main .pv-text-details__left-panel h1', () => {
+          port.postMessage(scrapeProfile());
+        });
       });
     }
   });
 });
 
+// Scroll to the bottom of the page and then call the callback
+function scrollToBottom(callback) {
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  setTimeout(callback, 3000);
+}
 
-// Wait for the page to fully load
+// Wait for an element to be available and then call the callback
 function waitForElement(selector, callback) {
   const element = document.querySelector(selector);
   if (element) {
@@ -35,7 +42,6 @@ function waitForElement(selector, callback) {
   }
 }
 
-
 // Scrape the LinkedIn profile
 function scrapeProfile() {
   try {
@@ -43,7 +49,7 @@ function scrapeProfile() {
     const tagLine = getTextContent('main.scaffold-layout__main .pv-text-details__left-panel .text-body-medium.break-words');
     const contactLocation = getTextContent('main.scaffold-layout__main .pv-text-details__left-panel span.text-body-small.inline.t-black--light.break-words');
     const currentCompany = getTextContent('main.scaffold-layout__main .pv-text-details__right-panel li:first-of-type span div.inline-show-more-text');
-    
+
     const contactAbout = getContactAbout();
     const positions = getPositions();
 
@@ -54,6 +60,7 @@ function scrapeProfile() {
   }
 }
 
+// Helper Functions
 function getTextContent(selector) {
   const element = document.querySelector(selector);
   return element ? element.textContent : '';
@@ -99,9 +106,3 @@ function getPositions() {
 
   return positions;
 }
-
-
-
-
-
-
