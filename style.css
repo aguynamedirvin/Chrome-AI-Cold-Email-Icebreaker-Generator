@@ -4,9 +4,14 @@ body {
   padding: 15px;
 }
 
+
+h1 {
+  font-size: 22px;
+  line-height: 1;
+}
+
 input {
   width: 100%;
-  margin-bottom: 10px;
   padding: 5px;
   border-radius: 5px;
   border: 1px solid #DDD;
@@ -38,6 +43,30 @@ button#save-settings:hover {
   color: #004181;
 }
 
+
+#settings-form div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+#settings-form div label {
+  width: 50%;
+  font-weight: 600;
+}
+
+#settings-form div input {
+  flex-grow: 1;
+}
+
+
 #status {
-  margin-top: 15px;
+  margin: 10px 0;
+  font-weight: 600;
+}
+#status.success {
+  color: green;
+}
+#status.error {
+  color: red;
 }
