@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,34 +9,74 @@
 </head>
 <body>
   <h1>Personalized Icebreaker Generator</h1>
+
+  <button type="button" id="generate-icebreakers">Generate Icebreakers ⚡️</button>
+  <div id="status"></div>
   
   <h2>Settings</h2>
   <form id="settings-form">
-    <label for="openai-api-key">OpenAI API Key:</label>
-    <input type="text" id="openai-api-key" name="openai-api-key">
-    <br>
-    <label for="spreadsheet-id">Spreadsheet ID:</label>
-    <input type="text" id="spreadsheet-id" name="spreadsheet-id">
-    <br>
-    <label for="linkedin-profile-url-column">LinkedIn Profile URL Column Letter (e.g., A):</label>
-    <input type="text" id="linkedin-profile-url-column" required>
-    <br>
-    <label for="icebreaker-column"><b>Icebreaker Column</b> Letter (e.g., B):</label>
-    <input type="text" id="icebreaker-column" required>
-    <br>
-    <label for="review-count-column"><b>Review Count</b> Column Letter (e.g., B):</label>
-    <input type="text" id="review-count-column" required>
-    <br>
-    <label for="rating-column"><b>Rating Column</b> Letter (e.g., B):</label>
-    <input type="text" id="rating-column" required>
-    <br>
+
+    <!-- OpenAI API Key -->
+    <div>
+      <label for="openai-api-key">OpenAI API Key:</label>
+      <input type="text" id="openai-api-key" name="openai-api-key">
+    </div>
+
+    <!-- Spreadsheet ID -->
+    <div>
+      <label for="spreadsheet-id">Spreadsheet ID:</label>
+      <input type="text" id="spreadsheet-id" name="spreadsheet-id">
+    </div>
+
+    <!-- Sheet Name -->
+    <div>
+      <label for="sheet-name">Sheet Name:</label>
+      <input type="text" id="sheet-name" name="sheet-name">
+    </div>
+
+    <!-- Columns -->
+    <h3>Columns</h3>
+
+    <!-- LinkedIn Profile URL -->
+    <div>
+      <label for="linkedin-profile-url-column">LinkedIn Profile URL:</label>
+      <input type="text" id="linkedin-profile-url-column" required>
+    </div>
+
+    <!-- Icebreaker Column -->
+    <div>
+      <label for="icebreaker-column">Icebreaker Column</label>
+      <input type="text" id="icebreaker-column" required>
+    </div>
+
+    <!-- Review Count -->
+    <div>
+      <label for="review-count-column">Review Count</label>
+      <input type="text" id="review-count-column" required>
+    </div>
+
+    <!-- Rating Column -->
+    <div>
+      <label for="rating-column">Rating Column</label>
+      <input type="text" id="rating-column" required>
+    </div>
+
+    <!-- Bio Column -->
+    <div>
+      <label for="bio-column">Bio Column</label>
+      <input type="text" id="bio-column" required>
+    </div>
+    
+    <!-- Experience Column -->
+    <div>
+      <label for="experience-colum">Experience Column</label>
+      <input type="text" id="experience-column" required>
+    </div>
+    
+
     <button type="button" id="save-settings">Save Settings</button>
   </form>
-
-  <h2>Generate Icebreakers</h2>
-  <button type="button" id="generate-icebreakers">Generate Icebreakers ⚡️</button>
-
-  <div id="status"></div>
+  
   <script type="module" src="popup.js"></script>
 </body>
 </html>
