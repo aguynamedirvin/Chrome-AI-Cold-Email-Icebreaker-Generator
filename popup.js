@@ -1,3 +1,10 @@
+/**
+ * 
+ * This file contains the main logic for the extension popup.
+ * popup.js
+ * 
+ */
+
 import { getStoredSettings, loadSettings } from './modules/settings.js';
 import { getAuthToken } from './modules/googleAuth.js';
 import { fetchSheetData, parseSheetData, updateSheetData, columnNameToIndex } from './modules/googleSheets.js';
@@ -5,31 +12,46 @@ import { createTab } from './modules/createTab.js';
 import { formatPositions, extractIcebreaker, generateIcebreaker } from './modules/openAI.js';
 
 
+const status = document.getElementById('status');
+
+
 // Save settings event listener
 document.getElementById('save-settings').addEventListener('click', () => {
   const openaiApiKey = document.getElementById('openai-api-key').value;
   const spreadsheetId = document.getElementById('spreadsheet-id').value;
+  const sheetName = document.getElementById('sheet-name').value;
   const linkedinURLColumn = document.getElementById('linkedin-profile-url-column').value;
   const icebreakerColumn = document.getElementById('icebreaker-column').value;
   const reviewCountColumn = document.getElementById('review-count-column').value;
   const reviewRatingColumn = document.getElementById('rating-column').value;
+  
+  const bioColumn = document.getElementById('bio-column').value;
+  const experienceColumn = document.getElementById('experience-column').value;
 
   if (!openaiApiKey || !spreadsheetId) {
-    alert('Please fill in all the required fields.');
-    return;
+    status.classList.add('error');
+    status.classList.remove('success');
+    status.textContent = 'Please fill in all the required fields.';
+    //return;
   }
 
   // Store the API keys and spreadsheetId for future use
   chrome.storage.local.set({
     openaiApiKey,
     spreadsheetId,
+    sheetName,
     linkedinURLColumn,
     icebreakerColumn,
     reviewCountColumn,
-    reviewRatingColumn
+    reviewRatingColumn,
+
+    bioColumn,
+    experienceColumn
   });
 
-  alert('Settings saved.');
+  status.classList.remove('error');
+  status.classList.add('success');
+  status.textContent = 'Settings saved successfully!';
 });
 
 
@@ -40,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Generate icebreakers button clicked');
 
     try {
-      const { openaiApiKey, spreadsheetId, linkedinURLColumn, icebreakerColumn, reviewCountColumn, reviewRatingColumn } = await getStoredSettings();
+      const { openaiApiKey, spreadsheetId, sheetName, linkedinURLColumn, icebreakerColumn, reviewCountColumn, reviewRatingColumn, bioColumn, experienceColumn } = await getStoredSettings();
 
       // Authenticate with Google using the chrome identity API
       chrome.identity.getAuthToken({ interactive: true }, async (token) => {
@@ -61,7 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const reviewCountColumnIndex = columnNameToIndex(reviewCountColumn);
         const reviewRatingColumnIndex = columnNameToIndex(reviewRatingColumn);
 
-        const leads = parseSheetData(sheetData, linkedinURLColumnIndex, reviewCountColumnIndex, reviewRatingColumnIndex);
+        const bioColumnIndex = columnNameToIndex(bioColumn);
+        const experienceColumnIndex = columnNameToIndex(experienceColumn);
+
+        const leads = parseSheetData(sheetData, linkedinURLColumnIndex, reviewCountColumnIndex, reviewRatingColumnIndex, bioColumnIndex, experienceColumnIndex);
         console.log('Parsed leads:', leads);
 
         for (const lead of leads) {
@@ -105,11 +130,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 loadSettings();
-
-
-
-
-
-
-
-

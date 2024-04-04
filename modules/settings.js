@@ -1,7 +1,19 @@
+// modules/settings.js
+
 // Get stored settings from the local storage
 export async function getStoredSettings() {
   return new Promise((resolve) => {
-    chrome.storage.local.get(['openaiApiKey', 'spreadsheetId', 'linkedinURLColumn', 'icebreakerColumn', 'reviewCountColumn', 'reviewRatingColumn'], (result) => {
+    chrome.storage.local.get([
+        'openaiApiKey', 
+        'spreadsheetId',
+        'sheetName',
+        'linkedinURLColumn', 
+        'icebreakerColumn', 
+        'reviewCountColumn', 
+        'reviewRatingColumn', 
+        'bioColumn',
+        'experienceColumn'
+      ], (result) => {
       resolve(result);
     });
   });
@@ -10,7 +22,7 @@ export async function getStoredSettings() {
 
 // Load settings on script execution
 export async function loadSettings() {
-  const { openaiApiKey, spreadsheetId, linkedinURLColumn, icebreakerColumn, reviewCountColumn, reviewRatingColumn } = await getStoredSettings();
+  const { openaiApiKey, spreadsheetId, sheetName, linkedinURLColumn, icebreakerColumn, reviewCountColumn, reviewRatingColumn, bioColumn, experienceColumn } = await getStoredSettings();
 
   if (openaiApiKey) {
     document.getElementById('openai-api-key').value = openaiApiKey;
@@ -18,6 +30,10 @@ export async function loadSettings() {
 
   if (spreadsheetId) {
     document.getElementById('spreadsheet-id').value = spreadsheetId;
+  }
+
+  if (sheetName) {
+    document.getElementById('sheet-name').value = sheetName;
   }
 
   if (linkedinURLColumn) {
@@ -34,5 +50,13 @@ export async function loadSettings() {
 
   if (reviewRatingColumn) {
     document.getElementById('rating-column').value = reviewRatingColumn;
+  }
+
+  if (bioColumn) {
+    document.getElementById('bio-column').value = bioColumn;
+  }
+
+  if (experienceColumn) {
+    document.getElementById('experience-column').value = experienceColumn;
   }
 }
