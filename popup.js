@@ -7,7 +7,7 @@
 
 import { getStoredSettings, loadSettings } from './modules/settings.js';
 import { getAuthToken } from './modules/googleAuth.js';
-import { fetchSheetData, parseSheetData, updateSheetData, columnNameToIndex } from './modules/googleSheets.js';
+import { fetchSheetData, parseSheetData, updateSheetData, updateSpreadsheetColumns, columnNameToIndex } from './modules/googleSheets.js';
 import { createTab } from './modules/createTab.js';
 import { formatPositions, extractIcebreaker, generateIcebreaker } from './modules/openAI.js';
 
@@ -90,6 +90,61 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Parsed leads:', leads);
 
         for (const lead of leads) {
+
+          if (lead.bio === '' && lead.experience === '') {
+            console.log(`Lead ${lead.row} already has bio and experience, skipping...`);
+            status.textContent = `Lead ${lead.row} already has bio and experience, skipping...`;
+            
+            console.log('Processing lead with LinkedIn URL:', lead.linkedInUrl);
+            const { profileData, createdTab } = await createTab(lead.linkedInUrl);
+          
+            if (!profileData) {
+              console.log('Profile data not found, skipping...');
+              chrome.tabs.remove(createdTab);
+              continue;
+            }
+          
+            console.log('Profile data:', profileData);
+          
+            // Assuming profileData contains bio and experience information
+            const bio = profileData.bio || 'No bio found';
+            const experience = formatPositions(profileData.positions); // Ensure you have a function to format experience data properly
+          
+            // Write the bio and experience to the Google Sheet
+            await updateSpreadsheetColumns(token, spreadsheetId, sheetName, lead.row, bio, experience, bioColumn, experienceColumn);
+            console.log('Bio and experience updated in spreadsheet');
+            continue;
+
+            // Close the tab after processing
+            console.log('Closing tab with ID:', createdTab);
+            chrome.tabs.remove(createdTab);
+
+          }
+
+          /*console.log('Processing lead with LinkedIn URL:', lead.linkedInUrl);
+          const { profileData, createdTab } = await createTab(lead.linkedInUrl);
+        
+          if (!profileData) {
+            console.log('Profile data not found, skipping...');
+            chrome.tabs.remove(createdTab);
+            continue;
+          }
+        
+          console.log('Profile data:', profileData);
+        
+          // Assuming profileData contains bio and experience information
+          const bio = profileData.bio || 'No bio found';
+          const experience = formatPositions(profileData.positions); // Ensure you have a function to format experience data properly
+        
+          // Write the bio and experience to the Google Sheet
+          await updateSpreadsheetColumns(token, spreadsheetId, sheetName, lead.row, bio, experience, bioColumn, experienceColumn);
+          console.log('Bio and experience updated in spreadsheet');*/
+        
+          
+        }
+        
+
+        /*for (const lead of leads) {
           console.log('Processing lead...');
 
           try {
@@ -104,12 +159,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             console.log('Profile data:', profileData);
 
+            // Assuming profileData contains bio and experience information
+            const bio = profileData.bio || 'No bio found';
+            const experience = profileData.experience || 'No experience listed';
+            console.log('Bio:', bio);
+            console.log('Experience:', experience);
+
             // Extract relevant data from the page content and generate the icebreaker here.
-            console.log('Sending to OpenAI...');
-            const icebreaker = await generateIcebreaker(openaiApiKey, profileData, lead.reviewCount, lead.reviewRating);
+            //console.log('Sending to OpenAI...');
+            //const icebreaker = await generateIcebreaker(openaiApiKey, profileData, lead.reviewCount, lead.reviewRating);
+
+
+            await updateSpreadsheetColumns(token, spreadsheetId, lead.row);
+            console.log('Bio and experience updated in spreadsheet');
 
             // Update the Google Sheet with the generated icebreaker
-            await updateSheetData(token, spreadsheetId, lead.row, icebreaker, icebreakerColumn);
+            //await updateSheetData(token, spreadsheetId, lead.row, icebreaker, icebreakerColumn);
 
             // Close the tab
             console.log('Closing tab with ID:', createdTab);
@@ -117,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
           } catch (error) {
             console.error('Error processing lead:', error);
           }
-        }
+        }*/
 
 
         alert('Successfully generated icebreakers!');

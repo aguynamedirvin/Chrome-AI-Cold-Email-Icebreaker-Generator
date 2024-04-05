@@ -1,3 +1,10 @@
+/**
+ * Description: This module contains functions to interact with the OpenAI API.
+ * modules/openAI.js
+ */
+
+
+
 export function formatPositions(positions) {
   return positions.map((position, index) => {
     let positionStr = `Position ${index + 1}:\n`;

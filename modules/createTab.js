@@ -1,3 +1,10 @@
+/**
+ * 
+ * Description: This module is responsible for creating a new tab and injecting the content script.
+ * modules/createTab.js
+ * 
+ */
+
 console.log('Content script loaded.');
 
 // Create a tab and inject the content script
@@ -69,9 +76,10 @@ function handleProfileScraping(tabId, listener, resolve, reject) {
 }
 
 function logProfileData(response) {
-  console.log('Name:', response.fullName);
+  console.log('Profile data received:', response);
+ /*console.log('Name:', response.fullName);
   console.log('Bio:', response.tagLine);
   console.log('Location:', response.contactLocation);
   console.log('About:', response.contactAbout);
-  console.log('Positions:', response.positions);
+  console.log('Positions:', response.positions);*/
 }
